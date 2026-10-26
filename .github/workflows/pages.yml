@@ -1,0 +1,56 @@
+name: Build and deploy Luma Studio
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Bootstrap source files from the initial project bundle
+        shell: bash
+        run: |
+          if [ -f ".luma-source.zip.b64" ]; then
+            base64 --decode .luma-source.zip.b64 > /tmp/luma-studio.zip
+            mkdir -p /tmp/luma-source
+            unzip -q /tmp/luma-studio.zip -d /tmp/luma-source
+            rsync -a --exclude='.github/workflows/pages.yml' /tmp/luma-source/luma-studio/ ./
+            rm -f .luma-source.zip.b64
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            if ! git diff --cached --quiet; then
+              git commit -m "build: unpack Luma Studio source tree [skip ci]"
+              git push
+            fi
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
