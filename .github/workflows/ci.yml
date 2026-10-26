@@ -1,0 +1,25 @@
+name: Validate Luma Studio
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Verify JavaScript syntax
+        run: |
+          node --check js/main.js
+          node --check js/portfolio.js
+          node --check js/contact.js
+      - name: Verify HTML navigation and local assets
+        run: python3 scripts/check_site.py
