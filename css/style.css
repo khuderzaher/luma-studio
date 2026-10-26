@@ -32,7 +32,7 @@
 @media(prefers-reduced-motion:reduce){.has-reveal [data-reveal]{opacity:1;transform:none;transition:none}}
 @media(max-width:760px){
 .site-header{isolation:isolate}
-.site-header.is-menu-open{background:#f8f5f0;border-bottom-color:var(--line)}
+.site-header.is-menu-open{background:#f8f5f0;border-bottom-color:var(--line);backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;transform:none}
 .site-nav{position:fixed;top:72px;left:0;right:0;bottom:0;height:calc(100vh - 72px);height:calc(100dvh - 72px);min-height:0;overflow-y:auto;overscroll-behavior:contain;z-index:2;isolation:isolate;background-color:#f8f5f0;background-image:linear-gradient(180deg,#f8f5f0 0%,#f8f5f0 100%);opacity:1;backdrop-filter:none;-webkit-backdrop-filter:none;border-top:1px solid rgba(36,35,35,.12);box-shadow:0 22px 44px rgba(36,35,35,.12);padding:clamp(28px,6vh,56px) var(--gutter) max(30px,env(safe-area-inset-bottom))}
 .site-nav::before{content:"FIELD NOTES  /  LUMA STUDIO";display:block;color:var(--muted);font:600 9px/1.4 var(--sans);letter-spacing:.17em;padding-bottom:22px}
 .site-nav::after{content:"Independent by nature. Intentional by design.";display:block;margin-top:auto;padding-top:24px;border-top:1px solid var(--line);color:#8068a6;font:italic 22px/1.15 var(--serif)}
